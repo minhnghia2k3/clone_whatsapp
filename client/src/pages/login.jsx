@@ -1,28 +1,53 @@
 import { firebaseAuth } from "@/utils/FirebaseConfig";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from 'next/image'
 import { FcGoogle } from 'react-icons/fc'
 import axios from "axios";
-import { CHECK_USER } from "@/utils/ApiRoutes";
+import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes";
 import { useRouter } from "next/router";
+import { useStateProvider } from "@/context/StateContext";
+import { reducerCases } from "@/context/constants";
+
 function login() {
   const router = useRouter();
+  const [{ userInfo, newUser }, dispatch] = useStateProvider()
+
+  useEffect(() => {
+    if (!newUser && userInfo?.id) router.push("/")
+  }, [userInfo, newUser])
+
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
-    // Nested destructuring
     const {
       user: { displayName: name, email: email, photoURL: profileImage }
     } = await signInWithPopup(firebaseAuth, provider);
-
-    // Call API => handle error with (try,catch)
     try {
       // Call API from utils/ApiRoutes.js
       if (email) {
-        const { data } = await axios.post(CHECK_USER, { email })
-        // console.log({ data })
+        const { data } = await axios.post(CHECK_USER_ROUTE, { email })
         if (!data.status) {
+          dispatch({
+            type: reducerCases.SET_NEW_USER,
+            newUser: true
+          })
+          dispatch({
+            type: reducerCases.SET_USER_INFO,
+            userInfo: { name, email, profileImage, status: "" }
+          })
+
           router.push('/onboarding')
+        } else if (data.status) {
+          const { id, email, name, profilePicture: profileImage, about: status } = data
+          dispatch({
+            type: reducerCases.SET_NEW_USER,
+            newUser: false
+          })
+          dispatch({
+            type: reducerCases.SET_USER_INFO,
+            userInfo: { id, name, email, profileImage, status }
+          })
+          router.push("/")
         }
       }
     } catch (e) {

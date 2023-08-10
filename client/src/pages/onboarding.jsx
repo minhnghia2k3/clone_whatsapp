@@ -37,7 +37,7 @@ function onboarding() {
               id: data.user.id,
               name,
               email,
-              profilePicture: image,
+              profileImage: image,
               about
             }
           });

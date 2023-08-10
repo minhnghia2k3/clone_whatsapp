@@ -26,16 +26,17 @@ function Main() {
     }
     if (!userInfo && currentUser?.email) {
       const { data } = await axios.post(CHECK_USER_ROUTE, { email: currentUser.email })
+
       if (!data.status) {
         return setRedirectLogin(true);
       } else {
-        const { id, name, email, profilePicture, about } = data.data
-        console.log('data from main: ', data)
+        const { id, name, email, profilePicture: profileImage, about } = data.data
+        // console.log('data from main: ', data)`
 
         dispatch({
           type: reducerCases.SET_USER_INFO,
           userInfo: {
-            id, name, email, profilePicture, about
+            id, name, email, profileImage, about
           }
         })
       }

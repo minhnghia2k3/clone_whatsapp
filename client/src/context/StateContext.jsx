@@ -12,5 +12,5 @@ export const StateProvider = ({ children, reducer, initialState }) => (
     </StateContext.Provider>
 )
 
-// Hook which allows to access & update global state
+// Hook which allows to ACCESS || UPDATE global state
 export const useStateProvider = () => useContext(StateContext)

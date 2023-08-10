@@ -10,6 +10,7 @@ export default function App({ Component, pageProps }) {
         <title>Whatsapp</title>
         <link rel="Whatsapp icon" href="/favicon.png" />
       </Head>
+      {/* display pages & components */}
       <Component {...pageProps} />
     </StateProvider>
   )

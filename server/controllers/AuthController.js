@@ -26,10 +26,10 @@ export const onBoardUser = async (req, res, next) => {
         if (!email || !name || !profilePicture) {
             res.send("Email, name and profile picture are required.")
         }
-        await prisma.user.create({
+        const user = await prisma.user.create({
             data: { email, name, about, profilePicture }
         })
-        res.json({ msg: "User created successfully.", status: true })
+        res.json({ msg: "User created successfully.", status: true, user })
     } catch (err) {
         next(err)
     }

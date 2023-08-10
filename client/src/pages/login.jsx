@@ -33,19 +33,19 @@ function login() {
           })
           dispatch({
             type: reducerCases.SET_USER_INFO,
-            userInfo: { name, email, profileImage, status: "" }
+            userInfo: { name, email, profileImage, about: "" }
           })
 
           router.push('/onboarding')
         } else if (data.status) {
-          const { id, email, name, profilePicture: profileImage, about: status } = data
+          const { id, email, name, profileImage, about } = data.data
           dispatch({
             type: reducerCases.SET_NEW_USER,
             newUser: false
           })
           dispatch({
             type: reducerCases.SET_USER_INFO,
-            userInfo: { id, name, email, profileImage, status }
+            userInfo: { id, name, email, profileImage, about }
           })
           router.push("/")
         }

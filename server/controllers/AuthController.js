@@ -34,3 +34,34 @@ export const onBoardUser = async (req, res, next) => {
         next(err)
     }
 }
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        // return Array of users
+        const users = await prisma.user.findMany({
+            orderBy: { name: "asc" },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                profilePicture: true,
+                about: true
+            }
+        })
+
+        const usersGroupedByInitialLetter = {}
+
+        users.forEach(user => {
+            const initialLetter = user.name.charAt(0).toUpperCase(); // Nghia => N
+            // Example: usersGroupedByInitialLetter["N"] = [Nghia, Nghia2]
+            if (!usersGroupedByInitialLetter[initialLetter]) {
+                usersGroupedByInitialLetter[initialLetter] = []
+            }
+            usersGroupedByInitialLetter[initialLetter].push(user)
+        })
+        // Example data: { N: [Nghia, Nghia2], A: [Anh, Anh2] }
+        return res.status(200).send({ users: usersGroupedByInitialLetter })
+    } catch (err) {
+        next(err)
+    }
+}

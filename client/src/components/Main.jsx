@@ -30,13 +30,12 @@ function Main() {
       if (!data.status) {
         return setRedirectLogin(true);
       } else {
-        const { id, name, email, profilePicture: profileImage, about } = data.data
-        // console.log('data from main: ', data)`
+        const { id, name, email, profilePicture: profilePicture, about } = data.data
 
         dispatch({
           type: reducerCases.SET_USER_INFO,
           userInfo: {
-            id, name, email, profileImage, about
+            id, name, email, profilePicture, about
           }
         })
       }

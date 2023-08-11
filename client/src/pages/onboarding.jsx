@@ -28,7 +28,6 @@ function onboarding() {
       const email = userInfo?.email
       try {
         const { data } = await axios.post(ONBOARD_USER_ROUTE, { email, name, about, image })
-        console.log('data from onboard: ', data)
         if (data.status) {
           dispatch({ type: reducerCases.SET_NEW_USER, newUser: false });
           dispatch({
@@ -37,7 +36,7 @@ function onboarding() {
               id: data.user.id,
               name,
               email,
-              profileImage: image,
+              profilePicture: image,
               about
             }
           });

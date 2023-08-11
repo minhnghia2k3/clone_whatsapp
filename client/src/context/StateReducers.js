@@ -1,7 +1,7 @@
 import { reducerCases } from "./constants"
 
 export const initialState = {
-    // userInfo: { id, email, name, profileImage, about } = data
+    // userInfo: { email, name, about, image: profilePicture } => send to server (req.body)
     userInfo: null,
     newUser: false,
 }

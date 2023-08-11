@@ -20,7 +20,7 @@ function login() {
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     const {
-      user: { displayName: name, email: email, photoURL: profileImage }
+      user: { displayName: name, email: email, photoURL: profilePicture }
     } = await signInWithPopup(firebaseAuth, provider);
     try {
       // Call API from utils/ApiRoutes.js
@@ -33,19 +33,19 @@ function login() {
           })
           dispatch({
             type: reducerCases.SET_USER_INFO,
-            userInfo: { name, email, profileImage, about: "" }
+            userInfo: { name, email, profilePicture, about: "" }
           })
 
           router.push('/onboarding')
         } else if (data.status) {
-          const { id, email, name, profileImage, about } = data.data
+          const { id, email, name, profilePicture, about } = data.data
           dispatch({
             type: reducerCases.SET_NEW_USER,
             newUser: false
           })
           dispatch({
             type: reducerCases.SET_USER_INFO,
-            userInfo: { id, name, email, profileImage, about }
+            userInfo: { id, name, email, profilePicture, about }
           })
           router.push("/")
         }

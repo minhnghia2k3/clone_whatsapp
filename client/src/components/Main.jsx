@@ -8,6 +8,7 @@ import axios from "axios";
 import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes";
 import { reducerCases } from "@/context/constants";
 import { onAuthStateChanged } from "firebase/auth";
+import Chat from "./Chat/Chat";
 
 function Main() {
   // Handle user side effect
@@ -47,7 +48,8 @@ function Main() {
     <>
       <div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden ">
         <ChatList />
-        <Empty />
+        <Chat />
+        {/* <Empty /> */}
       </div>
     </>
   )

@@ -25,24 +25,6 @@ const io = new Server(server, {
 })
 
 global.onlineUsers = new Map();
-// io.on("connection", (socket) => {
-//     global.chatSocket = socket;
-//     socket.on("add-user", (userId) => {
-//         onlineUsers.set(userId, socket.id);
-//     })
-
-//     socket.on("send-msg", (data) => {
-//         const sendUserSocket = onlineUsers.get(data.to);
-//         console.log("online users: ", onlineUsers)
-//         console.log("send user socket: ", sendUserSocket)
-//         if (sendUserSocket) {
-//             socket.to(sendUserSocket).emit("receive-msg", {
-//                 from: data.from,
-//                 message: data.message
-//             })
-//         }
-//     })
-// })
 io.on("connection", socket => {
     global.chatSocket = socket
 

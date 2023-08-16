@@ -86,10 +86,8 @@ export const getMessages = async (req, res, next) => {
 export const addImageMessage = async (req, res, next) => {
     try {
         if (req.file) {
-            console.log("Request file: ", req.file)
             const date = Date.now();
             const fileName = "uploads/images/" + date + req.file.originalname;
-            console.log(req.file.path, fileName)
             renameSync(req.file.path, fileName);
 
             const { from, to } = req.query;
@@ -107,6 +105,34 @@ export const addImageMessage = async (req, res, next) => {
             return res.status(400).send("From and to are required.")
         }
         return res.status(400).send("Image is required.")
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const addAudioMessage = async (req, res, next) => {
+    try {
+        if (req.file) {
+            const date = Date.now()
+            const fileName = "uploads/recordings/" + date + req.file.originalname;
+            renameSync(req.file.path, fileName)
+
+            const { from, to } = req.query
+            if (from && to) {
+                const message = await prisma.messages.create({
+                    data: {
+                        message: fileName,
+                        sender: { connect: { id: parseInt(from) } },
+                        receiver: { connect: { id: parseInt(to) } },
+                        type: "audio"
+                    }
+                })
+                return res.status(201).json({ message })
+            }
+            return res.status(400).send("From and to are required.")
+        }
+        return res.status(400).send("Audio is required.")
+
     } catch (err) {
         next(err)
     }

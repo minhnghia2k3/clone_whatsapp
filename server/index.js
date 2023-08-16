@@ -14,6 +14,7 @@ app.use(express.json());
 
 // Router
 
+app.use("/uploads/recordings", express.static("uploads/recordings"))
 app.use("/uploads/images", express.static("uploads/images")) // pointing to uploads/images folder
 app.use('/api/auth', AuthRoutes) // /api/auth/check-user
 app.use('/api/messages', MessageRoutes)

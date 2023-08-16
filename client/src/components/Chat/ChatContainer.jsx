@@ -3,12 +3,13 @@ import { calculateTime } from "@/utils/CalculateTime";
 import React from "react";
 import MessageStatus from "../common/MessageStatus";
 import ImageMessage from "./ImageMessage";
+// import VoiceMessage from "./VoiceMessage";
+import dynamic from "next/dynamic";
 
+const VoiceMessage = dynamic(() => import("./VoiceMessage"), { ssr: false });
 function ChatContainer() {
 
   const [{ messages, currentChatUser, userInfo }] = useStateProvider();
-  console.log("Messages: ", messages)
-
   return (
     <div className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar">
       <div className="bg-chat-background bg-fixed h-full w-full opacity-5 fixed left-0 top-0 z-index-0"></div>
@@ -44,9 +45,10 @@ function ChatContainer() {
                   )
                 }
                 {
-                  message.type === "image" && (
-                    <ImageMessage message={message} />
-                  )
+                  message.type === "image" && (<ImageMessage message={message} />)
+                }
+                {
+                  message.type === "audio" && (<VoiceMessage message={message} />)
                 }
               </div>
             )

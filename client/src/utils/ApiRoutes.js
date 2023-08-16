@@ -13,3 +13,4 @@ export const GET_ALL_CONTACTS_ROUTE = `${AUTH_API}/get-contacts`
 export const ADD_MESSAGE_ROUTE = `${MESSAGES_API}/add-message`
 export const GET_MESSAGES_ROUTE = `${MESSAGES_API}/get-messages`
 export const ADD_IMAGE_MESSAGE_ROUTE = `${MESSAGES_API}/add-image-message`
+export const ADD_AUDIO_MESSAGE_ROUTE = `${MESSAGES_API}/add-audio-message`

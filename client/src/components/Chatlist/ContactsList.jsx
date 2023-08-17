@@ -51,7 +51,7 @@ function ContactsList() {
                 {userList.map(contact => (
                   <ChatLIstItem
                     data={contact}
-                    isContactPage={true}
+                    isContactsPage={true}
                     key={contact.id} />
                 ))}
               </div>

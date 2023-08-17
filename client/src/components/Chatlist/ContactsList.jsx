@@ -8,12 +8,28 @@ import ChatLIstItem from "./ChatLIstItem";
 
 function ContactsList() {
   const [allContacts, setAllContacts] = useState([]);
+  const [searchContacts, setSearchContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [{ }, dispatch] = useStateProvider();
+  useEffect(() => {
+
+    if (searchTerm.length) {
+      const filteredData = {};
+      // get all the keys of allContacts, example: Array ['A', 'B', 'C']
+      Object.keys(allContacts).forEach(key => {
+        filteredData[key] = allContacts[key].filter(obj => obj.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      })
+      setSearchContacts(filteredData)
+    } else {
+      setSearchContacts(allContacts)
+    }
+  }, [searchTerm])
   useEffect(() => {
     const getContacts = async () => {
       try {
         const { data: { users } } = await axios.get(GET_ALL_CONTACTS_ROUTE)
         setAllContacts(users)
+        setSearchContacts(users)
       } catch (err) {
         console.log(err)
       }
@@ -38,20 +54,24 @@ function ContactsList() {
               <input
                 type="text"
                 placeholder="Search Contacts"
-                className="bg-transparent text-white w-full text-sm focus:outline-none " />
+                className="bg-transparent text-white w-full text-sm focus:outline-none "
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)} />
             </div>
           </div>
         </div>
-        {Object.entries(allContacts).map(([initialLetter, userList]) => {
+        {Object.entries(searchContacts).map(([initialLetter, userList]) => {
           return (
             <div key={Date.now() + initialLetter}>
 
-              <div className="text-teal-light pl-10 py-5">{initialLetter}</div>
+              {searchTerm.length === 0 &&
+                <div className="text-teal-light pl-10 py-5">{initialLetter}</div>
+              }
               <div>
                 {userList.map(contact => (
                   <ChatLIstItem
                     data={contact}
-                    isContactPage={true}
+                    isContactsPage={true}
                     key={contact.id} />
                 ))}
               </div>

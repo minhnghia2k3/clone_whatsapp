@@ -36,6 +36,9 @@ io.on("connection", socket => {
     // [SOCKET.ON] listen event 'add-user' from client
     socket.on("add-user", (userId) => {
         onlineUsers.set(userId, socket.id);
+        socket.broadcast.emit("online-users", {
+            onlineUsers: Array.from(onlineUsers.keys())
+        })
     })
 
     socket.on("send-msg", (data) => {
@@ -91,5 +94,14 @@ io.on("connection", socket => {
         if (sendUserSocket) {
             socket.to(sendUserSocket).emit("accept-call");
         }
+    })
+
+    socket.on("sign-out", (userId) => {
+        onlineUsers.delete(userId);
+        socket.broadcast.emit("online-users", {
+            // example: onlineUsers: [1 => 'abc', 2 => 'bcd', 3 => 'cde]
+            onlineUsers: Array.from(onlineUsers.keys())
+        })
+
     })
 })

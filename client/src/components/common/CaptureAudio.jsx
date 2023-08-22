@@ -95,7 +95,6 @@ function CaptureAudio({ setShowAudioRecorder }) {
           setRecordedAudio(audio)
 
           waveform.load(audioURL)
-          console.log("audioURL form captureAudio: ", audioURL)
         }
 
         mediaRecorder.start();

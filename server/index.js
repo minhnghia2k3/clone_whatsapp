@@ -82,7 +82,6 @@ io.on("connection", socket => {
     socket.on("reject-video-call", (data) => {
         const sendUserSocket = onlineUsers.get(data.from)
         if (sendUserSocket) {
-            console.log('get event reject-video-call', data)
             socket.to(sendUserSocket).emit("video-call-rejected");
         }
     })
